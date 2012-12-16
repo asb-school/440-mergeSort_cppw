@@ -22,8 +22,10 @@ public:
 	int getItem();
 	int getId();
 	void incrementIndex();
-	bool startInternalThread();
+	void startInternalThread();
 	void waitForInternalThreadToExit();
+	void run();
+	
 	
 private:
 	
@@ -33,7 +35,7 @@ private:
 	
 	int numberOfItems;
 	int numberOfThreads;
-	LPDWORD threadId;
+	int threadId;
 	
 	int beginningPosition;
 	int endingPosition;
@@ -43,6 +45,6 @@ private:
 	
 	// Functions
 	void calculatePositions();
-	static void *internalThreadFunction(void *givenSorterPointer);
-	DWORD WINAPI run();
+	static DWORD WINAPI internalThreadFunction(LPVOID givenSorterPointer);
+	
 };

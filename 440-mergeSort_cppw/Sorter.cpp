@@ -7,6 +7,7 @@
 //
 
 
+#include "stdafx.h"
 #include "Sorter.h"
 
 using namespace std;
@@ -71,40 +72,51 @@ void Sorter::incrementIndex()
 }
 
 
-// Returns true if the thread was successfully started, false if there was an error starting the thread
-bool Sorter::startInternalThread()
+// Start the thread
+void Sorter::startInternalThread()
 {
 	//return (pthread_create(&_theThread, NULL, internalThreadFunction, this) == 0);
-	return CreateThread(NULL, 0, run, NULL, 0, this->threadId); 
+	LPDWORD thisThreadId = LPDWORD(this->threadId);
+
+	int param = 1;
+
+//	int *functionPointer = this->run;
+
+	//int (*runPointer)() = this->run;
+
+	_theThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) Sorter::internalThreadFunction, this, 0, thisThreadId); 
 }
 
 
 // Wait for thread to finish
 void Sorter::waitForInternalThreadToExit()
 {
-	(void) pthread_join(_theThread, NULL);
+	//(void) pthread_join(_theThread, NULL);
+	if (_theThread != NULL)
+	{
+		WaitForSingleObject(_theThread, INFINITE);
+		CloseHandle(_theThread);
+	}
 }
 
 
 // Calls the internal thread function
-void* Sorter::internalThreadFunction(void *givenSorterPointer)
+DWORD WINAPI internalThreadFunction(LPVOID givenSorterPointer)
 {
-	Sorter *sorterPointer = static_cast<Sorter*>(givenSorterPointer);
+	//Sorter *sorterPointer = static_cast<Sorter*>(givenSorterPointer);
 	
+	Sorter *sorterPointer = (Sorter*) givenSorterPointer;
+
 	sorterPointer->run();
-	
-	// I don't know what this stuff does, but it compiles my code - noob programmer
-	void *z = NULL;
-	return (void *)z;
+
+	return 0;
 }
 
 
 // This is the bread and butter of the whole operation
-DWORD WINAPI Sorter::run()
+void Sorter::run()
 {
-	
-	
-    // Calculate beginning and ending positions
+	// Calculate beginning and ending positions
     this->calculatePositions();
     
     // For each - using beginning and ending positions
