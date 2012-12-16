@@ -76,15 +76,14 @@ void Sorter::incrementIndex()
 void Sorter::startInternalThread()
 {
 	//return (pthread_create(&_theThread, NULL, internalThreadFunction, this) == 0);
-	LPDWORD thisThreadId = LPDWORD(this->threadId);
+	//LPDWORD thisThreadId = LPDWORD(this->threadId);
 
-	int param = 1;
-
-//	int *functionPointer = this->run;
+	//	int *functionPointer = this->run;
 
 	//int (*runPointer)() = this->run;
+	//(LPTHREAD_START_ROUTINE)
 
-	_theThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) Sorter::internalThreadFunction, this, 0, thisThreadId); 
+	_theThread = CreateThread(NULL, 0, internalThreadFunction, this, 0, NULL); 
 }
 
 
@@ -101,7 +100,7 @@ void Sorter::waitForInternalThreadToExit()
 
 
 // Calls the internal thread function
-DWORD WINAPI internalThreadFunction(LPVOID givenSorterPointer)
+DWORD WINAPI Sorter::internalThreadFunction(void *givenSorterPointer)
 {
 	//Sorter *sorterPointer = static_cast<Sorter*>(givenSorterPointer);
 	

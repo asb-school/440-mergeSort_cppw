@@ -45,6 +45,6 @@ private:
 	
 	// Functions
 	void calculatePositions();
-	static DWORD WINAPI internalThreadFunction(LPVOID givenSorterPointer);
+	static DWORD WINAPI internalThreadFunction(void *givenSorterPointer);
 	
 };

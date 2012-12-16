@@ -19,8 +19,8 @@ int randomNumber()
 int _tmain(int argc, char *argv[])
 {
 	// Variables
-    int collectionSize = 0;
-    int numberOfThreads = 0;
+    int collectionSize = 10;
+    int numberOfThreads = 4;
     int lowestNumber = 0;
     bool notSorted = true;
     
@@ -29,7 +29,7 @@ int _tmain(int argc, char *argv[])
 
 
 	// Get command line parameters
-    if (argc != 2)
+   /* if (argc != 2)
     {
     	collectionSize = atoi(argv[1]);
     	numberOfThreads = atoi(argv[2]);
@@ -38,7 +38,7 @@ int _tmain(int argc, char *argv[])
     {
     	cout << "USAGE: arg1: collection size, arg2: number of threads\n";
 		return 0;
-    }
+    }*/
 
 	// Create a vector with items
     vector<int> masterItemCollection(collectionSize);
